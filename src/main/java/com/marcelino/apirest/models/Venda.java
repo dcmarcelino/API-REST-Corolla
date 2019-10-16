@@ -1,6 +1,7 @@
 package com.marcelino.apirest.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,20 @@ public class Venda implements Serializable {
 	
 	@OneToMany(mappedBy = "venda", targetEntity = Item_Venda.class, 
 	        cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private List<Item_Venda> itens;
+	private List<Item_Venda> itens = new ArrayList<>();
+
+	
+	
+	public Venda(long id, Date data, List<Item_Venda> itens) {
+		super();
+		this.id = id;
+		this.data = data;
+		this.itens = itens;
+	}
+	
+	public Venda() {
+
+	}
 
 	public long getId() {
 		return id;

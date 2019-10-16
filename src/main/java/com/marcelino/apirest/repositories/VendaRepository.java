@@ -1,4 +1,4 @@
-package com.marcelino.apirest.repository;
+package com.marcelino.apirest.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

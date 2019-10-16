@@ -1,34 +1,36 @@
 package com.marcelino.apirest.models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 
 @Entity
-public class Produto implements Serializable {
-
+public class Cidade implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String nome;
-	private BigDecimal valor;	
+		
+	@ManyToOne
+	@JoinColumn(name= "estado_id")
+	private Estado estado;
 	
+	public Cidade() {
+	}
 	
-	public Produto(long id, String nome, BigDecimal valor) {
+	public Cidade(long id, String nome, Estado estado) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.valor = valor;
-	}
-	
-	public Produto() {
-
+		this.estado = estado;
 	}
 	
 	public long getId() {
@@ -43,16 +45,13 @@ public class Produto implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public BigDecimal getValor() {
-		return valor;
+	public Estado getEstado() {
+		return estado;
 	}
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
-	@Override
-	public String toString() {
-		return "Produto [Id="+ id + " ,nome=" + nome + ", valor=" + valor + "]";
-	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -60,6 +59,7 @@ public class Produto implements Serializable {
 		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -68,13 +68,16 @@ public class Produto implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		Cidade other = (Cidade) obj;
 		if (id != other.id)
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Cidade [id=" + id + ", nome=" + nome + ", estado=" + estado + "]";
+	}
+
 	
 }
-		

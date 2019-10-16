@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcelino.apirest.models.Produto;
-import com.marcelino.apirest.repository.ProdutoRepository;
+import com.marcelino.apirest.repositories.ProdutoRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -3,12 +3,14 @@ package com.marcelino.apirest.models;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -19,13 +21,24 @@ private static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "Produto_id", referencedColumnName = "id", nullable=false)
 	private Produto produto;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "Venda_id", referencedColumnName = "id", nullable=false)
 	private Venda venda;
+	
+	public Item_Venda() {
+	
+	}
+	
+	public Item_Venda(long id, Produto produto, Venda venda) {
+		super();
+		this.id = id;
+		this.produto = produto;
+		this.venda = venda;
+	}
 
 	public long getId() {
 		return id;

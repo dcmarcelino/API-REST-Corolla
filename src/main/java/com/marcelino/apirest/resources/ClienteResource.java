@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcelino.apirest.models.Cliente;
-import com.marcelino.apirest.repository.ClienteRepository;
+import com.marcelino.apirest.repositories.ClienteRepository;
 
 
 @RestController
@@ -38,20 +38,20 @@ public class ClienteResource {
 	}
 
 	@PostMapping("/cliente")
-	public Cliente salvaCliente(@RequestBody Cliente Cliente) {
-		return ClienteRepository.save(Cliente);
+	public Cliente salvaCliente(@RequestBody Cliente cliente) {
+		return ClienteRepository.save(cliente);
 
 	}
 
 	@DeleteMapping("/cliente")
-	public void deletaCliente(@RequestBody Cliente Cliente) {
-		ClienteRepository.delete(Cliente);
+	public void deletaCliente(@RequestBody Cliente cliente) {
+		ClienteRepository.delete(cliente);
 		
 	}
 	
 	@PutMapping("/cliente")
-	public Cliente atualizaCliente(@RequestBody Cliente Cliente) {
-		return ClienteRepository.save(Cliente);
+	public Cliente atualizaCliente(@RequestBody Cliente cliente) {
+		return ClienteRepository.save(cliente);
 		
 	}
 
