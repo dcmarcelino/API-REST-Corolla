@@ -1,12 +1,16 @@
 package com.marcelino.apirest.models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -17,10 +21,13 @@ public class Produto implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String nome;
-	private BigDecimal valor;	
+	private double valor;
+	
+	@OneToMany(mappedBy = "id.produto")
+	private Set<Item_Venda> itens_venda = new HashSet<>();
 	
 	
-	public Produto(long id, String nome, BigDecimal valor) {
+	public Produto(long id, String nome, double valor) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -29,6 +36,14 @@ public class Produto implements Serializable {
 	
 	public Produto() {
 
+	}
+	
+	public List<Venda> getVendas(){
+		List<Venda> vendas = new ArrayList<>();
+		for(Item_Venda item : itens_venda) {
+			vendas.add(item.getVenda());
+		}
+		return vendas;
 	}
 	
 	public long getId() {
@@ -43,12 +58,22 @@ public class Produto implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public BigDecimal getValor() {
+	public double getValor() {
 		return valor;
 	}
-	public void setValor(BigDecimal valor) {
+	public void setValor(double valor) {
 		this.valor = valor;
 	}
+	
+	
+	public Set<Item_Venda> getItens_venda() {
+		return itens_venda;
+	}
+
+	public void setItens_venda(Set<Item_Venda> itens_venda) {
+		this.itens_venda = itens_venda;
+	}
+
 	@Override
 	public String toString() {
 		return "Produto [Id="+ id + " ,nome=" + nome + ", valor=" + valor + "]";

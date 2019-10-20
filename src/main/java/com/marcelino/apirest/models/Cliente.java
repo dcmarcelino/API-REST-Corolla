@@ -6,15 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.marcelino.apirest.models.enums.TipoCliente;
 
 @Entity
@@ -34,8 +37,12 @@ public class Cliente implements Serializable {
 	@Column(name="telefone")
 	private Set<String> telefones = new HashSet<>();
 
+	@JsonManagedReference   //Serializa o endereço
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
+	
+	@OneToMany(mappedBy="cliente", fetch = FetchType.EAGER)
+	private List<Venda> vendas = new ArrayList<>();
 
 	public Cliente() {
 
@@ -104,6 +111,15 @@ public class Cliente implements Serializable {
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	
+	public List<Venda> getVendas() {
+		return vendas;
+	}
+
+	public void setVendas(List<Venda> vendas) {
+		this.vendas = vendas;
 	}
 
 	@Override

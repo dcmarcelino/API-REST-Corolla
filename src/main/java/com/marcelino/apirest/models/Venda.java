@@ -1,17 +1,19 @@
 package com.marcelino.apirest.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,20 +29,29 @@ public class Venda implements Serializable {
 	
 	@Temporal (value = TemporalType.DATE)
 	private Date data;
-	
-	@OneToMany(mappedBy = "venda", targetEntity = Item_Venda.class, 
-	        cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private List<Item_Venda> itens = new ArrayList<>();
 
+	@OneToOne(mappedBy = "venda", cascade = CascadeType.ALL)
+	private Pagamento pagamento;
 	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="cliente_id")
+	private Cliente cliente;
 	
-	public Venda(long id, Date data, List<Item_Venda> itens) {
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="entrega_id")
+	private Endereco entrega;
+	
+	@OneToMany(mappedBy = "id.venda")
+	private Set<Item_Venda> itens_venda = new HashSet<>();
+	
+	public Venda(long id, Date data, Cliente cliente, Endereco entrega) {
 		super();
 		this.id = id;
 		this.data = data;
-		this.itens = itens;
+		this.cliente = cliente;
+		this.entrega = entrega;
 	}
-	
+
 	public Venda() {
 
 	}
@@ -61,21 +72,46 @@ public class Venda implements Serializable {
 		this.data = data;
 	}
 
-	public List<Item_Venda> getItens() {
-		return itens;
+	public Set<Item_Venda> getItens() {
+		return itens_venda;
 	}
 
-	public void setItens(List<Item_Venda> itens) {
-		this.itens = itens;
+	public void setItens(Set<Item_Venda> itens_venda) {
+		this.itens_venda = itens_venda;
 	}
+
+	
+	public Pagamento getPagamento() {
+		return pagamento;
+	}
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public Endereco getEntrega() {
+		return entrega;
+	}
+
+	public void setEntrega(Endereco entrega) {
+		this.entrega = entrega;
+	}
+
+	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((itens == null) ? 0 : itens.hashCode());
 		return result;
 	}
 
@@ -88,24 +124,14 @@ public class Venda implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Venda other = (Venda) obj;
-		if (data == null) {
-			if (other.data != null)
-				return false;
-		} else if (!data.equals(other.data))
-			return false;
 		if (id != other.id)
-			return false;
-		if (itens == null) {
-			if (other.itens != null)
-				return false;
-		} else if (!itens.equals(other.itens))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Venda [id=" + id + ", data=" + data + ", itens=" + itens + "]";
+		return "Venda [id=" + id + ", data=" + data + "]";
 	}
 	
 	

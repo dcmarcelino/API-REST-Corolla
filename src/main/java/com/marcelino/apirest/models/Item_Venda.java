@@ -2,73 +2,81 @@ package com.marcelino.apirest.models;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
+
 
 @Entity
 public class Item_Venda implements Serializable{
 private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	@EmbeddedId
+	private Item_VendaPK id = new Item_VendaPK();
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "Produto_id", referencedColumnName = "id", nullable=false)
-	private Produto produto;
+	private long quantidade;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "Venda_id", referencedColumnName = "id", nullable=false)
-	private Venda venda;
+	private double preco;
+	
+	private double desconto;
+
+	public Item_Venda(Produto produto, Venda venda, long quantidade, double preco, double desconto) {
+		super();
+		id.setProduto(produto);
+		id.setVenda(venda);
+		this.quantidade = quantidade;
+		this.preco = preco;
+		this.desconto = desconto;
+	}
 	
 	public Item_Venda() {
-	
+		
 	}
 	
-	public Item_Venda(long id, Produto produto, Venda venda) {
-		super();
-		this.id = id;
-		this.produto = produto;
-		this.venda = venda;
+	public Produto getProduto() {
+		return id.getProduto();
+	}
+	
+	public Venda getVenda() {
+		return id.getVenda();
 	}
 
-	public long getId() {
+	public Item_VendaPK getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Item_VendaPK id) {
 		this.id = id;
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public long getQuantidade() {
+		return quantidade;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setQuantidade(long quantidade) {
+		this.quantidade = quantidade;
 	}
 
-	public Venda getVenda() {
-		return venda;
+	public double getPreco() {
+		return preco;
 	}
 
-	public void setVenda(Venda venda) {
-		this.venda = venda;
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
+
+	public double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(double desconto) {
+		this.desconto = desconto;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -81,15 +89,15 @@ private static final long serialVersionUID = 1L;
 		if (getClass() != obj.getClass())
 			return false;
 		Item_Venda other = (Item_Venda) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "Item_Venda [id=" + id + ", produto=" + produto + ", venda=" + venda + "]";
-	}
 	
 	
 }
