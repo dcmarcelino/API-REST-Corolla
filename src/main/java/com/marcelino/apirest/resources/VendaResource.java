@@ -34,21 +34,16 @@ public class VendaResource {
 
 	}
 
-	@GetMapping("/vendas/{id}")
+	@GetMapping("/venda/{id}")
 	public Venda Venda(@PathVariable(value = "id") long id) {
 		return VendaRepository.findById(id);
 
 	}
 
-//	@PostMapping("/venda")
-//	public Venda salvaVenda(@RequestBody Venda venda) {
-//		for (Item_Venda item_venda : venda.getItens()) {
-//			item_venda.setVenda(venda);
-//		}
-//		item_VendaRepository.saveAll(venda.getItens());
-//		return VendaRepository.save(venda);
-//
-//	}
+	@PostMapping("/venda")
+	public Venda salvaVenda(@RequestBody Venda venda) {
+		return VendaRepository.save(venda);
+	}
 
 	@DeleteMapping("/venda")
 	public void deletaVenda(@RequestBody Venda venda) {

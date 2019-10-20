@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Venda implements Serializable {
@@ -27,17 +29,20 @@ public class Venda implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
+	@JsonFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Temporal (value = TemporalType.DATE)
 	private Date data;
 
-	@OneToOne(mappedBy = "venda", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@OneToOne(mappedBy = "venda")
 	private Pagamento pagamento;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="entrega_id")
 	private Endereco entrega;
 	

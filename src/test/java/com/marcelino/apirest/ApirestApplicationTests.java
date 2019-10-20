@@ -56,7 +56,7 @@ public class ApirestApplicationTests {
 	public void contextLoads() {
 	}
 
-	@Test
+	//@Test
 	public void Testar() throws ParseException {
 		
 	Produto p1 = new Produto(0, "TV 150 Polegadas", 7.500);

@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Produto implements Serializable {
@@ -23,6 +25,7 @@ public class Produto implements Serializable {
 	private String nome;
 	private double valor;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.produto")
 	private Set<Item_Venda> itens_venda = new HashSet<>();
 	
@@ -38,6 +41,7 @@ public class Produto implements Serializable {
 
 	}
 	
+	@JsonIgnore
 	public List<Venda> getVendas(){
 		List<Venda> vendas = new ArrayList<>();
 		for(Item_Venda item : itens_venda) {
